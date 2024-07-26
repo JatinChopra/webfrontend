@@ -18,6 +18,7 @@ const Index = () => {
 
     console.log(fname, lname, email, phone, pass);
 
+    // make axios request here 
 
   }
 

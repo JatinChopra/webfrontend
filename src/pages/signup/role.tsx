@@ -3,22 +3,29 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { IoArrowBackOutline } from "react-icons/io5";
 import Link from "next/link";
-
+// redux hooks import 
+import { useAppDispatch,useAppSelector } from "@/lib/hooks";
+// reducer actions import 
+import { signupRoleSliceActions } from "@/store/signupRoleSlice";
+import type { signupRoleType } from "@/store/signupRoleSlice";
 let rolesData = [
   {
     role: "I'm a client",
+    roleType:"client",
     text: "Streamlining Your Salon Experience,\nOne Click at a Time",
     url: "/signup/customer",
     image: "/client_role.png",
   },
   {
     role: "I'm a stylist",
+    roleType:"stylist",
     text: "Empowering Stylists to Showcase Their\nTalent and Grow their Business",
     url: "/signup/stylist",
     image: "/stylist_role.png",
   },
   {
     role: "We're a Salon ",
+    roleType:"salon",
     text: "Register your Salon Today and Simplify\nBookings for Your Clients",
     url: "/signup/salon",
     image: "/salon_role.png",
@@ -26,6 +33,7 @@ let rolesData = [
 ];
 
 const Index = () => {
+  const dispatch = useAppDispatch();
   const [activeRole, setActiveRole] = useState(0);
 
   return (
@@ -50,8 +58,11 @@ const Index = () => {
               </p>
               {rolesData.map((item, idx) => {
                 return (
-                  <>
                     <div
+                      key={item.role+idx+""}
+                      onClick={()=>{
+                        dispatch(signupRoleSliceActions.setRole(item.roleType as "client"|"salon"|"stylist"));
+                      }}
                       className={`border-2 lg:w-[720px]  h-[150px] rounded-lg mb-4  ${
                         idx == activeRole
                           ? "border-[#d68b30]"
@@ -79,7 +90,6 @@ const Index = () => {
                       </div>
                       </Link>
                     </div>
-                  </>
                 );
               })}
             </div>

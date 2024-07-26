@@ -74,3 +74,44 @@
       @apply bg-background text-foreground;
     }
   }
+
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+  background: #f1f1f1; /* Light grey background */
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Darker grey for the thumb */
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Even darker on hover for better visibility */
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f1f1; /* Match with scrollbar background */
+  cursor: pointer;
+}
+.no-spinner {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Additional styles to remove extra padding */
+.no-spinner {
+  padding-right: 0;
+  box-sizing: content-box;
+}
