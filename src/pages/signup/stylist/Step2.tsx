@@ -71,6 +71,7 @@ const Step2 = () => {
           // If dropped items aren't files, reject them
           if (item.kind === "file") {
             const file = item.getAsFile();
+            // make an axios request to upload the file
             console.log(`… file[${i}].name = ${file?.name}`);
             console.log(file?.arrayBuffer);
           }
@@ -99,9 +100,13 @@ const Step2 = () => {
       formData.append("file", target.files[0]);
 
       axios
-        .post("http://localhost:3001/service/upload", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
+        .post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/service/upload`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        )
         .then((res) => {
           console.log(res);
           if (res.status == 200) {

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { IoArrowBack } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toNamespacedPath } from "path";
 
 type newService = ["string", "string", "string", "string"][] | [];
 
@@ -42,13 +45,47 @@ for (let i = 0; i < minutesArray.length; i++) {
 }
 
 const Step6 = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   let dispatch = useAppDispatch();
+  let requestData = useAppSelector((state) => state.signupStylist);
   let step6Data = useAppSelector((state) => state.signupStylist.step6);
   let [isOpen, setIsOpen] = useState(false);
   const formHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    dispatch(stylistSliceActions.setCurrentStep(2));
+    // dispatch(stylistSliceActions.setCurrentStep(2));
+    // send the request first console log
+    console.log(requestData);
+
+    // send data to backend
+    console.log("Sending sytlist signup data");
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/stylist/signup`, {
+        personalInfo: requestData.step0,
+        businessType: requestData.step1,
+        businessImages: requestData.step2,
+        siteOfService: requestData.step3,
+        address: requestData.step4,
+        timings: requestData.step5,
+        servicesOffered: requestData.step6,
+      })
+      .then((res) => {
+        if (res.status == 201) {
+          toast({ title: "Signup Sucess", description: res.data.message });
+          router.push("/home");
+        }
+      })
+      .catch((e) => {
+        console.log("Stylist isgnup request error : ");
+        console.log(e);
+        if (e.request.status == 400) {
+          toast({
+            title: "Signup Error",
+            description: e.response.data.message,
+          });
+        }
+      });
   };
 
   return (

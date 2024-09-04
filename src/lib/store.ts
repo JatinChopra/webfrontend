@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import signupRolerReducer from "@/store/signupRoleSlice";
 import signupStylistReducer from "@/store/stylistSignupSlice";
+import signupSalonReducer from "@/store/salonSignupSlice";
 export const makeStore = () => {
   return configureStore({
     reducer: {
       signupRole: signupRolerReducer,
       signupStylist: signupStylistReducer,
+      signupSalon: signupSalonReducer,
     },
   });
 };
